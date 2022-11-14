@@ -10,21 +10,29 @@ const resolvers = {
     user: async (parent, { userId }) => {
         return User.findOne({ _id: userId });
     },
+    me: async (parent, args, context) => {
+      if (context.user) {
+        console.log(context.user);
+        return User.findOne({ _id: context.user._id }).populate('book');
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
   },
   Mutation: {
-    addBook: async (parent, { userId, authors, description, bookId, image, link, title }) => {
+    addBook: async (parent, args ) => { 
       const newBook = await User.findOneAndUpdate(
-        { _id: userId },
+        { _id: args.userId },
         {
-            $addToSet: { savedBooks: { authors, description, bookId, image, link, title } }
+            $addToSet: { savedBooks: args }
         },
         { new: true }
       );
+      return newBook;
     },
     removeBook: async (parent, { userId, bookId }) => {
         return User.findOneAndUpdate(
             { _id: userId },
-            { $pull: { savedBooks: { _id: bookId } } },
+            { $pull: { savedBooks: { bookId: bookId } } },
             { new: true }
         );
     },
