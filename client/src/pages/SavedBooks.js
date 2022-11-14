@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
-// import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 import { QUERY_SINGLE_USER, GET_ME } from '../utils/queries';
@@ -24,7 +23,7 @@ const SavedBooks = () => {
   );
   if (error) return console.log('error:', error);
   const user = data?.me || data?.user || {};
-  
+
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
 

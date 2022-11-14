@@ -13,9 +13,9 @@ const resolvers = {
     me: async (parent, args, context) => {
       if (context.user) {
         console.log(context.user);
-        return User.findOne({ _id: context.user._id }).populate('book');
+        return User.findOne({ _id: context.user._id }).populate('savedBooks');
       }
-      throw new AuthenticationError('You need to be logged in!');
+      throw new AuthenticationError('You need to be logged in! (me route)');
     },
   },
   Mutation: {
