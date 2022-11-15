@@ -1,7 +1,10 @@
 {
-  "name": "googlebooks-app",
+  "name": "bookquest",
   "version": "1.0.0",
-  "description": "",
+  "description": "Super cool book search app",
+  "engines": {
+    "node": "16.16"
+  },
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
