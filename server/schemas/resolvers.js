@@ -8,52 +8,58 @@ const resolvers = {
       return User.find({});
     },
     user: async (parent, { userId }) => {
-        return User.findOne({ _id: userId });
+        console.log('user called');
+        return await User.findOne({ _id: userId });
     },
     me: async (parent, args, context) => {
+      console.log('me called');
       if (context.user) {
-        console.log(context.user);
-        return User.findOne({ _id: context.user._id }).populate('savedBooks');
+        return await User.findOne({ _id: context.user._id });
       }
       throw new AuthenticationError('You need to be logged in! (me route)');
     },
   },
   Mutation: {
-    addBook: async (parent, args ) => { 
-      const newBook = await User.findOneAndUpdate(
-        { _id: args.userId },
-        {
-            $addToSet: { savedBooks: args }
-        },
-        { new: true }
-      );
-      return newBook;
+    addBook: async (parent, args, context ) => { 
+      if (context.user) {
+        const newBook = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          {
+              $push: { savedBooks: args }
+          },
+          { new: true }
+        );
+        return newBook;
+      }
+      throw new AuthenticationError('You need to be logged in! (me route)');
     },
-    removeBook: async (parent, { userId, bookId }) => {
-        return User.findOneAndUpdate(
-            { _id: userId },
+    removeBook: async (parent, { userId, bookId }, context) => {
+      if (context.user) {
+        return await User.findOneAndUpdate(
+            { _id: context.user._id },
             { $pull: { savedBooks: { bookId: bookId } } },
             { new: true }
         );
+      }
+      throw new AuthenticationError('You need to be logged in! (me route)');
     },
-    addUser: async (parent, { username, email, password }) => {
+    addUser: async (parent, { username, email, password }, context) => {
+      if (context.user) {
         const user = await User.create({ username, email, password });
-        const token = signToken(user);
+        const token = await signToken(user);
         return { token, user };
+      }
+      throw new AuthenticationError('You need to be logged in! (me route)');
     },
-    login: async (parent, { email, password }) => {
+    login: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email });
-
       if (!user) {
         throw new AuthenticationError('No user with this email found!');
       }
-
       const correctPw = await user.isCorrectPassword(password);
-
       if (!correctPw) {
         throw new AuthenticationError('Incorrect password!');
       }
-
       const token = signToken(user);
       return { token, user };
     },

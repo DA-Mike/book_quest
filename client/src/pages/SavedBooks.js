@@ -7,14 +7,15 @@ import { QUERY_SINGLE_USER, GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
-  const [deleteBook, { mError }] = useMutation(REMOVE_BOOK)
+  // const [userData, setUserData] = useState({});
+  const [deleteBook, { err }] = useMutation(REMOVE_BOOK)
 
   let userId;
   
   if (Auth.loggedIn()) {
     userId = Auth.getProfile().data._id;
   }
+  
   const { loading, error, data } = useQuery(
     userId ? QUERY_SINGLE_USER : GET_ME,
     {
@@ -22,7 +23,7 @@ const SavedBooks = () => {
     },
   );
   if (error) return console.log('error:', error);
-  const user = data?.me || data?.user || {};
+  const user = data?.me || data?.user;
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
