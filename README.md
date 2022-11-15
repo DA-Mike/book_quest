@@ -19,7 +19,15 @@ Simply clone repo.
 
 ## Usage
 
-![](./assets/21-mern-homework-demo-01.gif)
+
+![Demo 1](./assets/21-mern-homework-demo-01.gif)
+
+
+![Demo 2](./assets/21-mern-homework-demo-02.gif)
+
+
+![Demo 3](./assets/21-mern-homework-demo-03.gif)
+
 
 ## Contributing
 ### How to Contribute:
