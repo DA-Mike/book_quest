@@ -31,7 +31,7 @@ const resolvers = {
         );
         return newBook;
       }
-      throw new AuthenticationError('You need to be logged in! (me route)');
+      throw new AuthenticationError('You need to be logged in!');
     },
     removeBook: async (parent, { userId, bookId }, context) => {
       if (context.user) {
@@ -41,15 +41,12 @@ const resolvers = {
             { new: true }
         );
       }
-      throw new AuthenticationError('You need to be logged in! (me route)');
+      throw new AuthenticationError('You need to be logged in!');
     },
     addUser: async (parent, { username, email, password }, context) => {
-      if (context.user) {
         const user = await User.create({ username, email, password });
         const token = await signToken(user);
         return { token, user };
-      }
-      throw new AuthenticationError('You need to be logged in! (me route)');
     },
     login: async (parent, { email, password }, context) => {
       const user = await User.findOne({ email });
