@@ -19,7 +19,7 @@ Simply clone repo.
 
 ## Usage
 
-tbd
+![](./assets/21-mern-homework-demo-01.gif)
 
 ## Contributing
 ### How to Contribute:
