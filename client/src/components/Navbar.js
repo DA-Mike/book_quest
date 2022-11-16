@@ -3,16 +3,11 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
-import { useNavigate } from "react-router-dom";
 import Auth from '../utils/auth';
 
 const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
-  const nav = useNavigate();
-  const navAway = async () => {
-    await nav('/')
-  };
 
   return (
     <>

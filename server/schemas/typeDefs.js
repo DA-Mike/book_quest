@@ -36,7 +36,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
 
     addBook(userId: ID!, bookId: String!, image: String, link: String, title: String, authors: [String], description: String): User
-    removeBook(userId: ID!, bookId: ID!): User
+    removeBook(bookId: ID!): User
   }
 `;
 

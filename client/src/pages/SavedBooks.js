@@ -7,21 +7,14 @@ import { QUERY_SINGLE_USER, GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
-  // const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({});
   const [deleteBook, { err }] = useMutation(REMOVE_BOOK)
 
-  let userId;
-  
-  if (Auth.loggedIn()) {
-    userId = Auth.getProfile().data._id;
+  if (!Auth.loggedIn()) {
+    window.location.assign('/');
   }
   
-  const { loading, error, data } = useQuery(
-    userId ? QUERY_SINGLE_USER : GET_ME,
-    {
-      variables: { userId: userId },
-    },
-  );
+  const { loading, error, data } = useQuery(GET_ME);
   if (error) return console.log('error:', error);
   const user = data?.me || data?.user;
 
@@ -35,14 +28,12 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook({
+      const { data } = await deleteBook({
         variables: {
-          userId: userId,
-          bookId, 
-          token
+          bookId
         }
       });
-
+      window.location.reload();
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
