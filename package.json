@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Super cool book search app",
   "engines": {
-    "node": "16.16"
+    "node": ">=16.0.0 <17.0.0"
   },
   "main": "server/server.js",
   "scripts": {
